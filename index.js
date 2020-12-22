@@ -9,86 +9,75 @@ document.getElementById("login").style.visibility = 'hidden';
 document.getElementById("error").style.visibility = 'visible';
 }
 else if (pwValue == 'LifeIsVile2021') {
-//if correct, hide #login page and show #loading page
+//if correct, hide #login page and show #success page
 document.getElementById("login").style.visibility = 'hidden';
-document.getElementById("loading").style.visibility = 'visible';
+document.getElementById("countdown").style.visibility = 'hidden';
+document.getElementById("success").style.visibility = 'visible';
 }
 
 }
 
-function Ticker( elem ) {
-	elem.lettering();
-	this.done = false;
-	this.cycleCount = 5;
-	this.cycleCurrent = 0;
-	this.chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-_=+{}|[]\\;\':"<>?,./`~'.split('');
-	this.charsCount = this.chars.length;
-	this.letters = elem.find( 'span' );
-	this.letterCount = this.letters.length;
-	this.letterCurrent = 0;
 
-	this.letters.each( function() {
-		var $this = $( this );
-		$this.attr( 'data-orig', $this.text() );
-		$this.text( '-' );
-	});
+var minutes = 120;
+
+var target_date = new Date().getTime() + ((minutes * 60 ) * 1000); // set the countdown date
+var time_limit = ((minutes * 60 ) * 1000);
+//set actual timer
+setTimeout(
+  function() 
+  {
+    alert( 'done' );
+  }, time_limit );
+
+var days, hours, minutes, seconds; // variables for time units
+
+var countdown = document.getElementById("tiles"); // get tag element
+
+getCountdown();
+
+setInterval(function () { getCountdown(); }, 1000);
+
+function getCountdown(){
+
+	// find the amount of "seconds" between now and target
+	var current_date = new Date().getTime();
+	var seconds_left = (target_date - current_date) / 1000;
+  
+if ( seconds_left >= 0 ) {
+  console.log(time_limit);
+   if ( (seconds_left * 1000 ) < ( time_limit / 2 ) )  {
+     $( '#tiles' ).removeClass('color-full');
+     $( '#tiles' ).addClass('color-half');
+
+		} 
+    if ( (seconds_left * 1000 ) < ( time_limit / 4 ) )  {
+    	$( '#tiles' ).removeClass('color-half');
+    	$( '#tiles' ).addClass('color-empty');
+    }
+  
+	days = pad( parseInt(seconds_left / 86400) );
+	seconds_left = seconds_left % 86400;
+		 
+	hours = pad( parseInt(seconds_left / 3600) );
+	seconds_left = seconds_left % 3600;
+		  
+	minutes = pad( parseInt(seconds_left / 60) );
+	seconds = pad( parseInt( seconds_left % 60 ) );
+
+	// format countdown string + set tag value
+	countdown.innerHTML = "<span>" + hours + ":</span><span>" + minutes + ":</span><span>" + seconds + "</span>"; 
+  
+
+  
+    }
+    else if (seconds_left == 0) {
+        document.getElementById("countdown").style.visibility = 'hidden';
+
+    }
+   
 }
 
-Ticker.prototype.getChar = function() {
-	return this.chars[ Math.floor( Math.random() * this.charsCount ) ];
-};
+function pad(n) {
+	return (n < 10 ? '0' : '') + n;
+}
 
-Ticker.prototype.reset = function() {
-	this.done = false;
-	this.cycleCurrent = 0;
-	this.letterCurrent = 0;
-	this.letters.each( function() {
-		var $this = $( this );
-		$this.text( $this.attr( 'data-orig' ) );
-		$this.removeClass( 'done' );
-	});
-	this.loop();
-};
-
-Ticker.prototype.loop = function() {
-	var self = this;
-
-	this.letters.each( function( index, elem ) {
-		var $elem = $( elem );
-		if( index >= self.letterCurrent ) {
-			if( $elem.text() !== ' ' ) {
-				$elem.text( self.getChar() );
-				$elem.css( 'opacity', Math.random() );
-			}
-		}
-	});
-
-	if( this.cycleCurrent < this.cycleCount ) {
-		this.cycleCurrent++;
-	} else if( this.letterCurrent < this.letterCount ) {
-		var currLetter = this.letters.eq( this.letterCurrent );
-		this.cycleCurrent = 0;
-		currLetter.text( currLetter.attr( 'data-orig' ) ).css( 'opacity', 1 ).addClass( 'done' );
-		this.letterCurrent++;
-	} else {
-		this.done = true;
-	}
-
-	if( !this.done ) {
-		requestAnimationFrame( function() {
-			self.loop();
-		});
-	} else {
-		setTimeout( function() {
-			self.reset();
-		}, 750 );
-	}
-};
-
-$words = $( '.word' );
-
-$words.each( function() {
-	var $this = $( this ),
-		ticker = new Ticker( $this ).reset();
-	$this.data( 'ticker', ticker  );
-});
