@@ -22,6 +22,8 @@ body {
     grid-area: overlay;
     visibility: hidden;
     font-family: 'Source Code Pro', monospace;
+    text-align: center;
+    margin-top: 10em;
 }
 
 #grid {
@@ -86,7 +88,7 @@ button:focus{
       height: 96px;
       text-align: center;
       background: none;
-      margin: auto;  
+      margin-top: 5em;  
       visibility: visible;
   }
   
@@ -143,3 +145,74 @@ button:focus{
       text-transform: uppercase;
       display: inline-block;
   }
+
+  .glitch {
+	text-decoration: none;
+	text-transform: uppercase;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin: 0;
+	color: #fff;
+	letter-spacing: 5px;
+	
+    } 
+    
+    .glitch:after {
+		color: #f0f;
+        z-index: -2;
+        display: block;
+		content: attr(data-glitch);
+		text-transform: uppercase;
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		opacity: .8;
+    } 
+    .glitch:before {
+		color: #0ff;
+        z-index: -1;
+        display: block;
+		content: attr(data-glitch);
+		text-transform: uppercase;
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		opacity: .8;
+	}
+
+
+
+@media only screen and (max-width: 400px) {
+	.glitch {
+		font-size: 3em;
+	}
+}
+
+
+@keyframes glitch {
+	0% {
+		transform: translate(0)
+	}
+	20% {
+		transform: translate(-5px, 5px)
+	}
+	40% {
+		transform: translate(-5px, -5px)
+	}
+	60% {
+		transform: translate(5px, 5px)
+	}
+	80% {
+		transform: translate(5px, -5px)
+	}
+	to {
+		transform: translate(0)
+	}
+}
+

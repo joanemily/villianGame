@@ -7,6 +7,9 @@ if (pwValue != 'LifeIsVile2021' || pwValue == null) {
 //if incorrect, hide #login page and show #error page
 document.getElementById("login").style.visibility = 'hidden';
 document.getElementById("error").style.visibility = 'visible';
+var glitch = document.getElementsByClassName("glitch");
+glitch.pseudoStyle("before", "animation", "glitch .3s cubic-bezier(.25, .46, .45, .94) both 5");
+glitch.pseudoStyle("after", "animation", "glitch .3s cubic-bezier(.25, .46, .45, .94) reverse both 5");
 }
 else if (pwValue == 'LifeIsVile2021') {
 //if correct, hide #login page and show #success page
@@ -17,8 +20,14 @@ document.getElementById("success").style.visibility = 'visible';
 
 }
 
+login = () => 
+{
+document.getElementById("error").style.visibility = 'hidden';
+document.getElementById("login").style.visibility = 'visible';
 
-var minutes = 120;
+}
+
+var minutes = 30;
 
 var target_date = new Date().getTime() + ((minutes * 60 ) * 1000); // set the countdown date
 var time_limit = ((minutes * 60 ) * 1000);
